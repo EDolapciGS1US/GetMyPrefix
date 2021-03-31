@@ -1,0 +1,284 @@
+{
+	"info": {
+		"_postman_id": "41900edb-f4c5-445d-9e6b-519d8ad46571",
+		"name": "1stpartyAPI_Get_all_my_prefixes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get My All Prefix Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Number of prefix returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "f85367521d28432eb24ff72c0de6c247",
+						"type": "text"
+					},
+					{
+						"key": "X-Product-Owner-Account-Id",
+						"value": "01241818",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.qa.gs1us.org/myproduct/v1/api/v1/myprefix",
+					"protocol": "https",
+					"host": [
+						"api",
+						"qa",
+						"gs1us",
+						"org"
+					],
+					"path": [
+						"myproduct",
+						"v1",
+						"api",
+						"v1",
+						"myprefix"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify prefixes belonging to other companies are not displayed Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Number of prefix returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code should be 400 bad Request\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "f85367521d28432eb24ff72c0de6c247",
+						"type": "text"
+					},
+					{
+						"key": "X-Product-Owner-Account-Id",
+						"value": "10528392",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.qa.gs1us.org/myproduct/v1/api/v1/myprefix",
+					"protocol": "https",
+					"host": [
+						"api",
+						"qa",
+						"gs1us",
+						"org"
+					],
+					"path": [
+						"myproduct",
+						"v1",
+						"api",
+						"v1",
+						"myprefix"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Inactive prefix not shown Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body Not contain Inactive Prefix\", function () {\r",
+							"    pm.expect(pm.response.text()).to.not.include(\"8609430026\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "b94edb69f44f404ab94859100d3c3aac",
+						"type": "text"
+					},
+					{
+						"key": "X-Product-Owner-Account-Id",
+						"value": "15921281",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.qa.gs1us.org/myproduct/v1/api/v1/myprefix",
+					"protocol": "https",
+					"host": [
+						"api",
+						"qa",
+						"gs1us",
+						"org"
+					],
+					"path": [
+						"myproduct",
+						"v1",
+						"api",
+						"v1",
+						"myprefix"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify user able to see CCP Comp Prefix Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"\r",
+							"pm.test('Number of prefix returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(8);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "f85367521d28432eb24ff72c0de6c247",
+						"type": "text"
+					},
+					{
+						"key": "X-Product-Owner-Account-Id",
+						"value": "15921281",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.qa.gs1us.org/myproduct/v1/api/v1/myprefix",
+					"protocol": "https",
+					"host": [
+						"api",
+						"qa",
+						"gs1us",
+						"org"
+					],
+					"path": [
+						"myproduct",
+						"v1",
+						"api",
+						"v1",
+						"myprefix"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify IsGlobal True Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Verify isGlobal True\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[13].isGlobal).to.eql(true);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "956dd85a3f7b4d2395fe8e6b74637be6",
+						"type": "text"
+					},
+					{
+						"key": "X-Product-Owner-Account-Id",
+						"value": "10528392",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.qa.gs1us.org/myproduct/v1/api/v1/myprefix",
+					"protocol": "https",
+					"host": [
+						"api",
+						"qa",
+						"gs1us",
+						"org"
+					],
+					"path": [
+						"myproduct",
+						"v1",
+						"api",
+						"v1",
+						"myprefix"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
